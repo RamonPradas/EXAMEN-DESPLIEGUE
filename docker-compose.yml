@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  
+  db:
+    image: mysql:5.7
+    container_name: docker-db
+
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+            - examen:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - redexamen
+
+  
+
+  web:
+    build: . 
+    container_name: docker-www
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - redexamen
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    
+    depends_on:
+       - db
+    ports:
+       - "8000:80"
+    networks:
+      - redexamen
+
+volumes:
+  examen:
+      external: true
+
+
+
+
+networks:
+  redexamen:

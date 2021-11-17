@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: db_persist
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - examen:/var/lib/mysql
+volumes:
+  examen:
+    external: true
